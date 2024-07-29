@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { getCities, getDistrictsByCityCode, getNeighbourhoodsByCityCodeAndDistrict } from 'turkey-neighbourhoods';
 
 function isValidTC(tc) {
     if (tc.length !== 11) return false;
@@ -23,6 +24,52 @@ const copyToClipboard = (text, setCopied) => {
         .catch(err => console.error('Failed to copy text:', err));
 };
 
+const generateTcNumber = () => {
+    const birthDate = Math.floor(Math.random() * 900000000) + 100000000;
+    const genderDigit = Math.floor(Math.random() * 10);
+    const firstTenDigits = `${birthDate}${genderDigit}`;
+    const sumOfDigits = firstTenDigits.split('').map(Number).reduce((a, b) => a + b, 0);
+    const eleventhDigit = sumOfDigits % 10;
+    return `${firstTenDigits}${eleventhDigit}`;
+};
+
+const generateRandomStreetName = () => {
+    const words = ["Lorem", "Ipsum", "Dolor", "Sit", "Amet", "Consectetur", "Adipiscing", "Elit", "Sed", "Do", "Eiusmod", "Tempor", "Incididunt", "Ut", "Labore", "Et", "Dolore", "Magna", "Aliqua"];
+    const randomIndex = () => Math.floor(Math.random() * words.length);
+    const uniqueWords = new Set();
+    while (uniqueWords.size < 4) {
+        uniqueWords.add(words[randomIndex()]);
+    }
+    return `${Array.from(uniqueWords).join(' ')} Sokak`;
+};
+
+const generateAdditionalInfo = (tc) => {
+    const birthDate = "01.01.1966";
+    const seriNo = "A12345678";
+    const kimlikKayitNo = "12345";
+    const cities = getCities();
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    const districts = getDistrictsByCityCode(randomCity.code);
+    const randomDistrict = districts[Math.floor(Math.random() * districts.length)];
+    const neighbourhoods = getNeighbourhoodsByCityCodeAndDistrict(randomCity.code, randomDistrict);
+    const randomNeighbourhood = neighbourhoods[Math.floor(Math.random() * neighbourhoods.length)];
+    const sokak = generateRandomStreetName();
+
+    return {
+        "natId": tc,
+        "birthDate": birthDate,
+        "idNo": seriNo,
+        "registrationNo": kimlikKayitNo,
+        "address": {
+            "city": randomCity.name,
+            "district": randomDistrict,
+            "neighbourhood": randomNeighbourhood,
+            "street": sokak,
+            "phoneNumber": "5555555555"
+        }
+    };
+};
+
 function App() {
     const [content, setContent] = useState('');
     const [tcNumber, setTcNumber] = useState('');
@@ -34,8 +81,9 @@ function App() {
             .then(response => response.json())
             .then(data => {
                 if (isValidTC(data.spanContent)) {
+                    const additionalInfo = generateAdditionalInfo(data.spanContent);
                     setContent(data.spanContent);
-                    console.log(data.spanContent, 'fetched and valid');
+                    console.log(JSON.stringify(additionalInfo, null, 2)); 
                 } else {
                     console.error('Fetched TC is invalid');
                     setContent('Fetched TC is invalid');
@@ -53,18 +101,10 @@ function App() {
         do {
             newTcNumber = generateTcNumber();
         } while (!isValidTC(newTcNumber));
+        const additionalInfo = generateAdditionalInfo(newTcNumber);
         setTcNumber(newTcNumber);
         setTcNumberCopied(false);
-        console.log(newTcNumber, 'generated and valid');
-    };
-
-    const generateTcNumber = () => {
-        const birthDate = Math.floor(Math.random() * 900000000) + 100000000;
-        const genderDigit = Math.floor(Math.random() * 10);
-        const firstTenDigits = `${birthDate}${genderDigit}`;
-        const sumOfDigits = firstTenDigits.split('').map(Number).reduce((a, b) => a + b, 0);
-        const eleventhDigit = sumOfDigits % 10;
-        return `${firstTenDigits}${eleventhDigit}`;
+        console.log(JSON.stringify(additionalInfo, null, 2));
     };
 
     return (
