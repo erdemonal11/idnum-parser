@@ -1,103 +1,22 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+html, body {
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .container {
-  max-width: 800px;
-  width: 100%;
+  width: 300px !important; 
+  min-height: 150px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  padding: 0.5rem;
   text-align: center;
-}
-
-
-.grid-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-.section {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-  color: #333;
-}
-
-h1 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  font-size: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-p {
-  font-size: 1.1rem;
-  color: #444;
-  margin: 1rem 0;
-}
-
-.button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin: 0.5rem;
-}
-
-.button:hover {
-  transform: scale(1.05);
-}
-
-.button.fetch {
-  background-color: #e74c3c;
-}
-
-.button.fetch:hover {
-  background-color: #c0392b;
-}
-
-.button.generate {
-  background-color: #3498db;
-}
-
-.button.generate:hover {
-  background-color: #2980b9;
-}
-
-.button.copy {
-  padding: 0.5rem 1rem;
-  background-color: #2ecc71;
-}
-
-.button.copy:hover {
-  background-color: #27ae60;
-}
-
-.tc-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  flex-direction: column;
+  justify-content: space-around;
 }
