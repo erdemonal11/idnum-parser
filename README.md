@@ -94,4 +94,3 @@ The JSON data you can download will look like this:
 
  ```
 
-This README is well-organized and provides clear instructions for installation, usage, and contributions.
